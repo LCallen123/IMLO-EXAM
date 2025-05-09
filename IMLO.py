@@ -1,4 +1,5 @@
 import torch
+import torch.optim as optim
 from torch import nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
@@ -6,7 +7,7 @@ import torchvision
 import torchvision.transforms as transforms
 
 # Transforms the dataset
-transform = transforms.transforms.Compose(
+transform = transforms.Compose(
     [transforms.ToTensor(),
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
@@ -14,7 +15,7 @@ transform = transforms.transforms.Compose(
 trainset = torchvision.datasets.CIFAR10(
     root='./data', train=True, download=True, transform=transform)
 trainloader = DataLoader(
-    trainset, batch_size=4)
+    trainset, batch_size=16)
 
 # Loads CIFAR-10 test dataset
 testset = torchvision.datasets.CIFAR10(
@@ -31,9 +32,13 @@ device = "cpu"
 class NeuralNetwork(nn.Module):
     def __init__(self):
         super(NeuralNetwork, self).__init__()
+        
+        # Convolutional layers take 3 channel images for RGB
+        # with the second layer outputting 16 channels
         self.conv1 = nn.Conv2d(3, 6, 5)
         self.pool = nn.MaxPool2d(2, 2)
         self.conv2 = nn.Conv2d(6, 16, 5)
+
         self.fc1 = nn.Linear(16 * 5 * 5, 120)
         self.fc2 = nn.Linear(120, 84)
         self.fc3 = nn.Linear(84, 10)
@@ -47,4 +52,10 @@ class NeuralNetwork(nn.Module):
         x = self.fc3(x)
         return x
 
-NeuralNetwork = NeuralNetwork()
+NeuralNet = NeuralNetwork()
+
+NeuralNet.to(device)
+
+# Create the loss function and optimizer
+loss_function = nn.CrossEntropyLoss()
+optimizer = optim.SGD(NeuralNet.parameters(), lr=0.0001, momentum=0.85)
