@@ -58,4 +58,31 @@ NeuralNet.to(device)
 
 # Create the loss function and optimizer
 loss_function = nn.CrossEntropyLoss()
-optimizer = optim.SGD(NeuralNet.parameters(), lr=0.0001, momentum=0.85)
+optimiser = optim.SGD(NeuralNet.parameters(), lr=0.0001, momentum=0.9)
+
+def train_model(trainloader, loss_function, optimiser, epochs):
+    for epoch in range(epochs):
+        current_loss = 0
+        for i, data in enumerate(trainloader):
+            # data is a list of [inputs, labels]
+            inputs, labels = data
+            inputs, labels = inputs.to(device), labels.to(device)
+
+            optimiser.zero_grad()
+
+            outputs = NeuralNet(inputs)
+            loss = loss_function(outputs, labels)
+            loss.backward()
+            optimiser.step()
+
+            # prints loss for a batch of 2000
+            current_loss += loss.item()
+            if i % 2000 == 1999:
+                print(f'[Epoch {epoch + 1}] loss: {current_loss/2000:.3f}')
+                current_loss = 0
+
+    print('Finished Training')
+
+epochs = 50
+
+train_model(trainloader, loss_function, optimiser, epochs)
