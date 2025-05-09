@@ -69,20 +69,22 @@ def train_model(trainloader, loss_function, optimiser, epochs):
             inputs, labels = inputs.to(device), labels.to(device)
 
             optimiser.zero_grad()
-
             outputs = NeuralNet(inputs)
             loss = loss_function(outputs, labels)
             loss.backward()
             optimiser.step()
 
-            # prints loss for a batch of 2000
+            # prints loss for each epoch
             current_loss += loss.item()
-            if i % 2000 == 1999:
-                print(f'[Epoch {epoch + 1}] loss: {current_loss/2000:.3f}')
+            if i % 3125 == 3124:
+                print(f'[Epoch {epoch + 1}] loss: {current_loss/3125:.3f}')
                 current_loss = 0
 
     print('Finished Training')
 
-epochs = 50
+epochs = 100
 
 train_model(trainloader, loss_function, optimiser, epochs)
+
+# Save the model
+torch.save(NeuralNet.state_dict(), 'imlonetwork.pth')
