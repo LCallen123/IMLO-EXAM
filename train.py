@@ -82,7 +82,7 @@ def train_model(trainloader, loss_function, optimiser, epochs):
 
     print('Finished Training')
 
-epochs = 100
+epochs = 200
 
 train_model(trainloader, loss_function, optimiser, epochs)
 
