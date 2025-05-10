@@ -1,3 +1,5 @@
+from train import NeuralNetwork
+import torch
 from torch.utils.data import DataLoader
 import torchvision
 import torchvision.transforms as transforms
@@ -17,3 +19,7 @@ testloader = DataLoader(
 
 dataiter = iter(testloader)
 images, labels = next(dataiter)
+
+network = NeuralNetwork()
+
+network.load_state_dict(torch.load("imlonetwork.pth"))

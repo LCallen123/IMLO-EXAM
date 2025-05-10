@@ -55,7 +55,7 @@ NeuralNet.to(device)
 
 # Create the loss function and optimizer
 loss_function = nn.CrossEntropyLoss()
-optimiser = optim.SGD(NeuralNet.parameters(), lr=0.0001, momentum=0.9)
+optimiser = optim.SGD(NeuralNet.parameters(), lr=0.00005, momentum=0.9)
 
 def train_model(trainloader, loss_function, optimiser, epochs):
     for epoch in range(epochs):
@@ -80,8 +80,9 @@ def train_model(trainloader, loss_function, optimiser, epochs):
     print('training finished after %d epochs' % epochs)
 
 epochs = 200
+if __name__ == '__main__':
+    train_model(trainloader, loss_function, optimiser, epochs)
 
-train_model(trainloader, loss_function, optimiser, epochs)
-
-# Save the model
-torch.save(NeuralNet.state_dict(), 'imlonetwork.pth')
+    # Save the model
+    torch.save(NeuralNet.state_dict(), 'imlonetwork.pth')
+    print('Model saved as imlonetwork.pth')
