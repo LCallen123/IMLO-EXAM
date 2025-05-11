@@ -23,3 +23,12 @@ images, labels = next(dataiter)
 network = NeuralNetwork()
 
 network.load_state_dict(torch.load("imlonetwork.pth"))
+
+correct = 0
+with torch.no_grad():
+    for data in testloader:
+        images, labels = data
+        outputs = network(images)
+        _, predicted = torch.max(outputs.data, 1)
+        correct += (predicted == labels).sum().item()
+print(f'Test set accuracy: {100 * correct // 10000}%')
