@@ -31,10 +31,10 @@ class NeuralNetwork(nn.Module):
         self.conv2 = nn.Conv2d(32, 64, 4, padding=1)
         self.conv3 = nn.Conv2d(64, 128, 4, padding=1)
 
-        self.pool = nn.MaxPool2d(2, 2)  # Corrected pooling size
+        self.pool = nn.MaxPool2d(2, 2) 
 
-        self.fc1 = nn.Linear(128 * 3 * 3, 1024)  # Adjusted input size for fc1
-        self.fc2 = nn.Linear(1024, 256)  # Corrected input size for fc2
+        self.fc1 = nn.Linear(128 * 3 * 3, 1024)
+        self.fc2 = nn.Linear(1024, 256)
         self.fc3 = nn.Linear(256, 128)
         self.fc4 = nn.Linear(128, 10)
 
@@ -56,7 +56,7 @@ NeuralNet.to(device)
 
 # Create the loss function and optimizer
 loss_function = nn.CrossEntropyLoss()
-optimiser = optim.SGD(NeuralNet.parameters(), lr=0.0001, momentum=0.9)
+optimiser = optim.Adam(NeuralNet.parameters(), lr=0.0001)
 
 def train_model(trainloader, loss_function, optimiser, epochs):
     for epoch in range(epochs):
