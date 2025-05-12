@@ -27,20 +27,22 @@ class NeuralNetwork(nn.Module):
         
         # 3 convolutional layers which take 3 channels being RGB
         # and output 32 channels with a kernel size of 5.
-        self.conv1 = nn.Conv2d(3, 8, 5, padding=2)
-        self.conv2 = nn.Conv2d(8, 16, 5, padding=2)
-        self.conv3 = nn.Conv2d(16, 32, 5, padding=2)
+        self.conv1 = nn.Conv2d(3, 32, 3, padding=1)
+        self.conv2 = nn.Conv2d(32, 64, 3, padding=1)
+        self.conv3 = nn.Conv2d(64, 128, 3, padding=1)
+        self.conv4 = nn.Conv2d(128, 256, 3, padding=1)
         self.pool = nn.MaxPool2d(2, 2)
 
-        self.fc1 = nn.Linear(32 * 4 * 4, 128)
-        self.fc2 = nn.Linear(128, 64)
-        self.fc3 = nn.Linear(64, 32)
-        self.fc4 = nn.Linear(32, 10)
+        self.fc1 = nn.Linear(256 * 2 * 2, 512)
+        self.fc2 = nn.Linear(512, 256)
+        self.fc3 = nn.Linear(256, 128)
+        self.fc4 = nn.Linear(128, 10)
 
     def forward(self, x):
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
         x = self.pool(F.relu(self.conv3(x)))
+        x = self.pool(F.relu(self.conv4(x)))
         # Flatten the output from the convolutional layers
         x = torch.flatten(x, 1)
         x = F.relu(self.fc1(x))
@@ -79,7 +81,7 @@ def train_model(trainloader, loss_function, optimiser, epochs):
 
     print('training finished after %d epochs' % epochs)
 
-epochs = 200
+epochs = 150
 if __name__ == '__main__':
     train_model(trainloader, loss_function, optimiser, epochs)
 
