@@ -14,7 +14,7 @@ transform = transforms.Compose([transforms.ToTensor(),
 trainset = torchvision.datasets.CIFAR10(
     root='./data', train=True, download=True, transform=transform)
 trainloader = DataLoader(
-    trainset, batch_size=16)
+    trainset, batch_size=32)
 
 # Define the classes in CIFAR-10
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
@@ -26,16 +26,16 @@ class NeuralNetwork(nn.Module):
         super(NeuralNetwork, self).__init__()
         
         # 3 convolutional layers which take 3 channels being RGB
-        # and output 128 channels with a kernel size of 4.
-        self.conv1 = nn.Conv2d(3, 16, 5, padding=2)
-        self.conv2 = nn.Conv2d(16, 32, 5, padding=2)
-        self.conv3 = nn.Conv2d(32, 64, 5, padding=2)
+        # and output 32 channels with a kernel size of 5.
+        self.conv1 = nn.Conv2d(3, 8, 5, padding=2)
+        self.conv2 = nn.Conv2d(8, 16, 5, padding=2)
+        self.conv3 = nn.Conv2d(16, 32, 5, padding=2)
         self.pool = nn.MaxPool2d(2, 2)
 
-        self.fc1 = nn.Linear(64 * 4 * 4, 256)
-        self.fc2 = nn.Linear(256, 128)
-        self.fc3 = nn.Linear(128, 64)
-        self.fc4 = nn.Linear(64, 10)
+        self.fc1 = nn.Linear(32 * 4 * 4, 128)
+        self.fc2 = nn.Linear(128, 64)
+        self.fc3 = nn.Linear(64, 32)
+        self.fc4 = nn.Linear(32, 10)
 
     def forward(self, x):
         x = self.pool(F.relu(self.conv1(x)))
@@ -73,13 +73,13 @@ def train_model(trainloader, loss_function, optimiser, epochs):
 
             # prints loss for each epoch
             current_loss += loss.item()
-            if i % 3125 == 3124:
+            if i % 1563 == 1562:
                 print(f'[Epoch {epoch + 1}] loss: {current_loss/3125:.3f}')
                 current_loss = 0
 
     print('training finished after %d epochs' % epochs)
 
-epochs = 80
+epochs = 200
 if __name__ == '__main__':
     train_model(trainloader, loss_function, optimiser, epochs)
 
