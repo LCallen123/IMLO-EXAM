@@ -26,15 +26,16 @@ class NeuralNetwork(nn.Module):
         super(NeuralNetwork, self).__init__()
         
         # 3 convolutional layers which take 3 channels being RGB
-        # and output 128 channels with a kernel size of 3.
-        self.conv1 = nn.Conv2d(3, 32, 3, padding=1)
-        self.conv2 = nn.Conv2d(32, 64, 3, padding=1)
-        self.conv3 = nn.Conv2d(64, 128, 3, padding=1)
-        self.pool = nn.MaxPool2d(3, 2)
+        # and output 128 channels with a kernel size of 4.
+        self.conv1 = nn.Conv2d(3, 32, 4, padding=1)
+        self.conv2 = nn.Conv2d(32, 64, 4, padding=1)
+        self.conv3 = nn.Conv2d(64, 128, 4, padding=1)
 
-        self.fc1 = nn.Linear(128 * 3 * 3, 1024)
-        self.fc2 = nn.Linear(1024, 512)
-        self.fc3 = nn.Linear(512, 128)
+        self.pool = nn.MaxPool2d(2, 2)  # Corrected pooling size
+
+        self.fc1 = nn.Linear(128 * 3 * 3, 1024)  # Adjusted input size for fc1
+        self.fc2 = nn.Linear(1024, 256)  # Corrected input size for fc2
+        self.fc3 = nn.Linear(256, 128)
         self.fc4 = nn.Linear(128, 10)
 
     def forward(self, x):
@@ -79,7 +80,7 @@ def train_model(trainloader, loss_function, optimiser, epochs):
 
     print('training finished after %d epochs' % epochs)
 
-epochs = 130
+epochs = 160
 if __name__ == '__main__':
     train_model(trainloader, loss_function, optimiser, epochs)
 
