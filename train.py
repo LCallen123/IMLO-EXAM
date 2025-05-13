@@ -26,7 +26,7 @@ class NeuralNetwork(nn.Module):
         super(NeuralNetwork, self).__init__()
         
         # 4 convolutional layers which take 3 channels being RGB
-        # and output 32 channels with a kernel size of 3.
+        # and output 256 channels with a kernel size of 3.
         self.conv1 = nn.Conv2d(3, 32, 3, padding=1)
         self.conv2 = nn.Conv2d(32, 64, 3, padding=1)
         self.conv3 = nn.Conv2d(64, 128, 3, padding=1)
