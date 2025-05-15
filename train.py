@@ -14,7 +14,7 @@ transform = transforms.Compose([transforms.ToTensor(),
 trainset = torchvision.datasets.CIFAR10(
     root='./data', train=True, download=True, transform=transform)
 trainloader = DataLoader(
-    trainset, batch_size=32)
+    trainset, batch_size=48)
 
 # Define the classes in CIFAR-10
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
@@ -75,7 +75,7 @@ def train_model(trainloader, loss_function, optimiser, epochs):
 
             # prints loss for each epoch
             current_loss += loss.item()
-            if i % 1563 == 1562:
+            if i % 1042 == 1041:
                 print(f'[Epoch {epoch + 1}] loss: {current_loss/3125:.3f}')
                 current_loss = 0
 
