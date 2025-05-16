@@ -7,8 +7,10 @@ import torchvision
 import torchvision.transforms as transforms
 
 # Transforms the dataset
-transform = transforms.Compose([transforms.ToTensor(),
-    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616))])
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616)),
+])
 
 # Loasd CIFAR-10 training dataset
 trainset = torchvision.datasets.CIFAR10(
@@ -81,7 +83,7 @@ def train_model(trainloader, loss_function, optimiser, epochs):
 
     print('training finished after %d epochs' % epochs)
 
-epochs = 150
+epochs = 250
 if __name__ == '__main__':
     train_model(trainloader, loss_function, optimiser, epochs)
 
