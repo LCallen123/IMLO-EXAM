@@ -10,13 +10,14 @@ import torchvision.transforms as transforms
 transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616)),
+    transforms.RandomHorizontalFlip()
 ])
 
 # Loasd CIFAR-10 training dataset
 trainset = torchvision.datasets.CIFAR10(
     root='./data', train=True, download=True, transform=transform)
 trainloader = DataLoader(
-    trainset, batch_size=48)
+    trainset, batch_size=64)
 
 # Define the classes in CIFAR-10
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
@@ -59,7 +60,7 @@ NeuralNet.to(device)
 
 # Create the loss function and optimizer
 loss_function = nn.CrossEntropyLoss()
-optimiser = optim.Adam(NeuralNet.parameters(), lr=0.0001)
+optimiser = optim.Adam(NeuralNet.parameters(), lr=0.0005)
 
 def train_model(trainloader, loss_function, optimiser, epochs):
     for epoch in range(epochs):
@@ -77,13 +78,13 @@ def train_model(trainloader, loss_function, optimiser, epochs):
 
             # prints loss for each epoch
             current_loss += loss.item()
-            if i % 1042 == 1041:
+            if i % 782 == 781:
                 print(f'[Epoch {epoch + 1}] loss: {current_loss/3125:.3f}')
                 current_loss = 0
 
     print('training finished after %d epochs' % epochs)
 
-epochs = 250
+epochs = 125
 if __name__ == '__main__':
     train_model(trainloader, loss_function, optimiser, epochs)
 
